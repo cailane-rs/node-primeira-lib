@@ -1,6 +1,16 @@
 import fs from 'fs';
 import chalk from 'chalk';
 
+const textoTeste = 'São geralmente recuperados a partir de um objeto [FileList](https://developer.mozilla.org/pt-BR/docs/Web/API/FileList) que é retornado como resultado da seleção, pelo usuário, de arquivos através do elemento [<input>](https://developer.mozilla.org/pt-BR/docs/Web/HTML/Element/Input), a partir do objeto [DataTransfer](https://developer.mozilla.org/pt-BR/docs/Web/API/DataTransfer) utilizado em operações de arrastar e soltar, ou a partir da API `mozGetAsFile()` em um [HTMLCanvasElement](https://developer.mozilla.org/pt-BR/docs/Web/API/HTMLCanvasElement). Em Gecko, códigos com privilégiios podem criar objetos File representando qualquer arquivo local sem a intereção do usuário (veja [Implementation notes](https://developer.mozilla.org/pt-BR/docs/Web/API/File#implementation_notes) para mais informações.).';
+
+function extraiLinks(texto) {
+    const regex = /\[([^\[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
+    const capturas = regex.exec(texto);
+    console.log(capturas);
+}
+
+extraiLinks(textoTeste);
+
 function trataErro(erro) {
     throw new Error(chalk.red(erro.code, 'Não há arquivo no diretório'));
 }
@@ -18,25 +28,10 @@ async function pegaArquivo(caminhoDoArquivo) {
     }
 }
 
-// versão assíncrona: promises com then()
-// function pegaArquivo(caminhoDoArquivo) {
-//     const encoding = 'utf-8';
-//     fs.promises.readFile(caminhoDoArquivo, encoding)
-//     .then((texto) => console.log(chalk.green(texto)))
-//     .catch((erro) => trataErro(erro))
-// }
+// pegaArquivo('./arquivos/texto.md');
 
-// versão síncrona
-// function pegaArquivo(caminhoDoArquivo) {
-//     const encoding = 'utf-8';
-//     fs.readFile(caminhoDoArquivo, encoding, (erro, texto) => {
-//         if(erro) {
-//             trataErro(erro);
-//         }
-//         console.log(chalk.green(texto));
-//     })
-// }
+// \[[^\[\]]*?\] expressão regular que: pega o nome dos links
 
-pegaArquivo('./arquivos/texto.md');
-setInterval(() => pegaArquivo('./arquivos/'), 2000);
+// \(https?:\/\/[^\s?#.].[^\s]*\) expressão regular que: pega os links entre parênteses
+// \[([^\[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\) expressão regular que: pega o nome do link e o link separadamente
 
