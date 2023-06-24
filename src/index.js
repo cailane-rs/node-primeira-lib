@@ -25,7 +25,7 @@ async function pegaArquivo(caminhoDoArquivo) {
     }
 }
 
-pegaArquivo('./arquivos/texto.md');
+export default pegaArquivo;
 
 // \[[^\[\]]*?\] expressão regular que: pega o nome dos links
 
