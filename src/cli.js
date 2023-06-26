@@ -4,8 +4,11 @@ import pegaArquivo from "./index.js";
 
 const caminho = process.argv;
 
-function imprimeLista(nomeArquivo, resultado) {
-    console.log(chalk.yellow(`Lista de links de: ${nomeArquivo}`), resultado);
+function imprimeLista(resultado, identificador = '') {
+    console.log(
+        chalk.yellow('Lista de links'),
+        chalk.black.bgGreen(identificador),
+        resultado);
 }
 
 async function processaTexto(argumentos) {
@@ -22,12 +25,12 @@ async function processaTexto(argumentos) {
 
     if (fs.lstatSync(caminho).isFile()) {
         const resultado = await pegaArquivo(argumentos[2]);
-        imprimeLista(argumentos[2], resultado)
+        imprimeLista(resultado);
     } else if (fs.lstatSync(caminho).isDirectory()) {
         const arquivos = await fs.promises.readdir(caminho);
         arquivos.forEach(async (nomeDeArquivo) => {
             const lista = await pegaArquivo(`${caminho}/${nomeDeArquivo}`);
-            imprimeLista(nomeDeArquivo, lista);
+            imprimeLista(lista, nomeDeArquivo);
         })
     }
 }
