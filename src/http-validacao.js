@@ -23,7 +23,7 @@ function manejaErros (erro) {
     if (erro.cause.code === 'ENOTFOUND') {
         return 'link não encontrado';
     } else {
-        return 'ocorreu algum erro'
+        return 'ocorreu algum erro';
     }
 }
 
